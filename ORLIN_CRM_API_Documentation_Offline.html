@@ -1,0 +1,1510 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ORLIN CRM API Documentation</title>
+<style>
+:root{--bg:#f7f8fb;--panel:#fff;--text:#1d2433;--muted:#667085;--border:#e4e7ec;--accent:#7f56d9;}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:250px;background:#111827;color:#fff;padding:24px 18px;overflow:auto}
+.sidebar h1{font-size:18px;margin:0 0 6px} .sidebar p{font-size:12px;color:#98a2b3;margin:0 0 18px}
+.sidebar a{display:block;color:#d0d5dd;text-decoration:none;padding:7px 8px;border-radius:7px;font-size:14px}
+.sidebar a:hover{background:#1f2937;color:#fff}
+.main{margin-left:250px;padding:34px;max-width:1500px}
+.hero{background:linear-gradient(135deg,#fff,#f3efff);border:1px solid var(--border);padding:28px;border-radius:18px;margin-bottom:24px}
+.hero h1{margin:0 0 8px;font-size:30px} .hero p{margin:5px 0;color:var(--muted)}
+.search{width:100%;padding:13px 15px;border:1px solid var(--border);border-radius:10px;font-size:15px;margin:16px 0 4px}
+section{scroll-margin-top:20px;margin:34px 0} section h2{font-size:24px;border-bottom:1px solid var(--border);padding-bottom:10px}
+.endpoint-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;margin:10px 0;overflow:hidden}
+.endpoint-card>summary{display:grid;grid-template-columns:74px minmax(240px,1.2fr) minmax(220px,1fr) 90px;gap:10px;align-items:center;padding:14px 16px;cursor:pointer;list-style:none}
+.endpoint-card>summary::-webkit-details-marker{display:none} .endpoint-card[open]{box-shadow:0 4px 14px rgba(16,24,40,.07)}
+.endpoint-body{padding:6px 18px 20px;border-top:1px solid var(--border)} .summary-text{color:#475467} .auth{font-size:12px;color:#667085;text-align:right}
+.method{display:inline-block;min-width:64px;text-align:center;padding:5px 8px;border-radius:6px;font-size:12px;font-weight:800;color:white}
+.get{background:#1570ef} .post{background:#079455} .put{background:#f79009} .patch{background:#7f56d9} .delete{background:#d92d20}
+.path{font-size:14px;font-weight:700;word-break:break-all} code{font-family:Consolas,Monaco,monospace}
+h4{margin:19px 0 8px} .desc{color:#475467}
+.table-wrap{overflow:auto} table{width:100%;border-collapse:collapse;background:#fff} th,td{padding:10px;border:1px solid var(--border);text-align:left;vertical-align:top;font-size:13px} th{background:#f9fafb}
+.codebox{position:relative} pre{background:#101828;color:#f2f4f7;padding:16px;border-radius:9px;overflow:auto;font-size:13px}
+.copy{position:absolute;right:8px;top:8px;border:0;border-radius:6px;padding:6px 10px;cursor:pointer}
+.response{border-left:4px solid #98a2b3;background:#f9fafb;padding:10px 12px;margin:8px 0;border-radius:5px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px} .badge{background:#fff;border:1px solid var(--border);padding:6px 9px;border-radius:999px;font-size:12px}
+.hidden{display:none!important}
+@media(max-width:900px){.sidebar{position:relative;width:auto}.main{margin-left:0;padding:18px}.endpoint-card>summary{grid-template-columns:72px 1fr;}.summary-text,.auth{grid-column:2}}
+@media print{.sidebar,.search,.copy{display:none}.main{margin:0;padding:0}details{break-inside:avoid}details:not([open]) .endpoint-body{display:block}}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <h1>ORLIN CRM API</h1>
+  <p>Offline Documentation · v1.0.0</p>
+  <a href="#overview">Overview</a>
+  <a href='#health'>Health</a><a href='#authentication'>Authentication</a><a href='#customers'>Customers</a><a href='#services'>Services</a><a href='#transactions'>Transactions</a><a href='#analysis'>Analysis</a><a href='#promotion-strategies'>Promotion Strategies</a><a href='#campaigns'>Campaigns</a><a href='#notifications'>Notifications</a><a href='#crm-insights'>CRM Insights</a><a href='#dashboard'>Dashboard</a><a href='#reports'>Reports</a><a href='#ai-advisor'>AI Advisor</a><a href='#email-test'>Email Test</a><a href='#whatsapp'>WhatsApp</a>
+</aside>
+<main class="main">
+<section id="overview">
+  <div class="hero">
+    <h1>ORLIN CRM API Documentation</h1>
+    <p>Dokumentasi API lokal/offline. File ini dapat dibuka langsung tanpa backend, Swagger, internet, atau ngrok.</p>
+    <p><b>Authentication:</b> JWT melalui HttpOnly cookie <code>orlin_token</code>. Login lebih dulu melalui <code>POST /api/auth/login</code>.</p>
+    <div class="badges">
+      <span class="badge">65 operations</span>
+      <span class="badge">51 paths</span>
+      <span class="badge">15 modules</span>
+    </div>
+    <input id="search" class="search" placeholder="Cari endpoint, method, atau modul…">
+  </div>
+  <h2>Ringkasan Endpoint</h2>
+  <div class="table-wrap"><table><thead><tr><th>Method</th><th>Endpoint</th><th>Modul</th><th>Ringkasan</th></tr></thead><tbody id="summaryTable">
+  <tr class='searchable' data-search='get /api/health backend health check health'><td><span class='method get'>GET</span></td><td><code>/api/health</code></td><td>Health</td><td>Backend health check</td></tr><tr class='searchable' data-search='get /api/db-health database connection health check health'><td><span class='method get'>GET</span></td><td><code>/api/db-health</code></td><td>Health</td><td>Database connection health check</td></tr><tr class='searchable' data-search='post /api/auth/login login user authentication'><td><span class='method post'>POST</span></td><td><code>/api/auth/login</code></td><td>Authentication</td><td>Login user</td></tr><tr class='searchable' data-search='get /api/auth/me mendapatkan user yang sedang login authentication'><td><span class='method get'>GET</span></td><td><code>/api/auth/me</code></td><td>Authentication</td><td>Mendapatkan user yang sedang login</td></tr><tr class='searchable' data-search='post /api/auth/logout logout dan menghapus authentication cookie authentication'><td><span class='method post'>POST</span></td><td><code>/api/auth/logout</code></td><td>Authentication</td><td>Logout dan menghapus authentication cookie</td></tr><tr class='searchable' data-search='get /api/customers daftar customer customers'><td><span class='method get'>GET</span></td><td><code>/api/customers</code></td><td>Customers</td><td>Daftar customer</td></tr><tr class='searchable' data-search='post /api/customers tambah customer customers'><td><span class='method post'>POST</span></td><td><code>/api/customers</code></td><td>Customers</td><td>Tambah customer</td></tr><tr class='searchable' data-search='get /api/customers/{id} detail customer customers'><td><span class='method get'>GET</span></td><td><code>/api/customers/{id}</code></td><td>Customers</td><td>Detail customer</td></tr><tr class='searchable' data-search='put /api/customers/{id} update customer customers'><td><span class='method put'>PUT</span></td><td><code>/api/customers/{id}</code></td><td>Customers</td><td>Update customer</td></tr><tr class='searchable' data-search='delete /api/customers/{id} nonaktifkan customer customers'><td><span class='method delete'>DELETE</span></td><td><code>/api/customers/{id}</code></td><td>Customers</td><td>Nonaktifkan customer</td></tr><tr class='searchable' data-search='patch /api/customers/{id}/reactivate aktifkan kembali customer customers'><td><span class='method patch'>PATCH</span></td><td><code>/api/customers/{id}/reactivate</code></td><td>Customers</td><td>Aktifkan kembali customer</td></tr><tr class='searchable' data-search='get /api/services daftar layanan services'><td><span class='method get'>GET</span></td><td><code>/api/services</code></td><td>Services</td><td>Daftar layanan</td></tr><tr class='searchable' data-search='post /api/services tambah layanan services'><td><span class='method post'>POST</span></td><td><code>/api/services</code></td><td>Services</td><td>Tambah layanan</td></tr><tr class='searchable' data-search='get /api/services/{id} detail layanan services'><td><span class='method get'>GET</span></td><td><code>/api/services/{id}</code></td><td>Services</td><td>Detail layanan</td></tr><tr class='searchable' data-search='put /api/services/{id} update layanan services'><td><span class='method put'>PUT</span></td><td><code>/api/services/{id}</code></td><td>Services</td><td>Update layanan</td></tr><tr class='searchable' data-search='delete /api/services/{id} nonaktifkan layanan services'><td><span class='method delete'>DELETE</span></td><td><code>/api/services/{id}</code></td><td>Services</td><td>Nonaktifkan layanan</td></tr><tr class='searchable' data-search='patch /api/services/{id}/reactivate aktifkan kembali layanan services'><td><span class='method patch'>PATCH</span></td><td><code>/api/services/{id}/reactivate</code></td><td>Services</td><td>Aktifkan kembali layanan</td></tr><tr class='searchable' data-search='get /api/transactions daftar transaksi transactions'><td><span class='method get'>GET</span></td><td><code>/api/transactions</code></td><td>Transactions</td><td>Daftar transaksi</td></tr><tr class='searchable' data-search='post /api/transactions buat transaksi transactions'><td><span class='method post'>POST</span></td><td><code>/api/transactions</code></td><td>Transactions</td><td>Buat transaksi</td></tr><tr class='searchable' data-search='get /api/transactions/{id} detail transaksi transactions'><td><span class='method get'>GET</span></td><td><code>/api/transactions/{id}</code></td><td>Transactions</td><td>Detail transaksi</td></tr><tr class='searchable' data-search='put /api/transactions/{id} update transaksi transactions'><td><span class='method put'>PUT</span></td><td><code>/api/transactions/{id}</code></td><td>Transactions</td><td>Update transaksi</td></tr><tr class='searchable' data-search='delete /api/transactions/{id} hapus transaksi transactions'><td><span class='method delete'>DELETE</span></td><td><code>/api/transactions/{id}</code></td><td>Transactions</td><td>Hapus transaksi</td></tr><tr class='searchable' data-search='get /api/analysis riwayat analysis run analysis'><td><span class='method get'>GET</span></td><td><code>/api/analysis</code></td><td>Analysis</td><td>Riwayat analysis run</td></tr><tr class='searchable' data-search='post /api/analysis/run jalankan rfm + k-means analysis analysis'><td><span class='method post'>POST</span></td><td><code>/api/analysis/run</code></td><td>Analysis</td><td>Jalankan RFM + K-Means analysis</td></tr><tr class='searchable' data-search='get /api/analysis/{id} detail analysis run analysis'><td><span class='method get'>GET</span></td><td><code>/api/analysis/{id}</code></td><td>Analysis</td><td>Detail analysis run</td></tr><tr class='searchable' data-search='get /api/analysis/{id}/summary summary customer intelligence analysis'><td><span class='method get'>GET</span></td><td><code>/api/analysis/{id}/summary</code></td><td>Analysis</td><td>Summary Customer Intelligence</td></tr><tr class='searchable' data-search='get /api/analysis/{id}/customers daftar customer hasil analysis analysis'><td><span class='method get'>GET</span></td><td><code>/api/analysis/{id}/customers</code></td><td>Analysis</td><td>Daftar customer hasil analysis</td></tr><tr class='searchable' data-search='get /api/analysis/{id}/customers/{customerid} detail rfm dan segment satu customer analysis'><td><span class='method get'>GET</span></td><td><code>/api/analysis/{id}/customers/{customerId}</code></td><td>Analysis</td><td>Detail RFM dan segment satu customer</td></tr><tr class='searchable' data-search='get /api/promotion-strategies daftar strategi promosi promotion strategies'><td><span class='method get'>GET</span></td><td><code>/api/promotion-strategies</code></td><td>Promotion Strategies</td><td>Daftar strategi promosi</td></tr><tr class='searchable' data-search='get /api/promotion-strategies/{id} detail promotion strategy promotion strategies'><td><span class='method get'>GET</span></td><td><code>/api/promotion-strategies/{id}</code></td><td>Promotion Strategies</td><td>Detail promotion strategy</td></tr><tr class='searchable' data-search='get /api/campaigns daftar campaign campaigns'><td><span class='method get'>GET</span></td><td><code>/api/campaigns</code></td><td>Campaigns</td><td>Daftar campaign</td></tr><tr class='searchable' data-search='post /api/campaigns buat campaign campaigns'><td><span class='method post'>POST</span></td><td><code>/api/campaigns</code></td><td>Campaigns</td><td>Buat campaign</td></tr><tr class='searchable' data-search='get /api/campaigns/{id} detail campaign campaigns'><td><span class='method get'>GET</span></td><td><code>/api/campaigns/{id}</code></td><td>Campaigns</td><td>Detail campaign</td></tr><tr class='searchable' data-search='post /api/campaigns/{id}/generate-targets generate dan freeze target campaign campaigns'><td><span class='method post'>POST</span></td><td><code>/api/campaigns/{id}/generate-targets</code></td><td>Campaigns</td><td>Generate dan freeze target campaign</td></tr><tr class='searchable' data-search='post /api/campaigns/{id}/simulate simulasikan delivery campaign campaigns'><td><span class='method post'>POST</span></td><td><code>/api/campaigns/{id}/simulate</code></td><td>Campaigns</td><td>Simulasikan delivery campaign</td></tr><tr class='searchable' data-search='post /api/campaigns/{id}/test-delivery test delivery ke kontak testing campaigns'><td><span class='method post'>POST</span></td><td><code>/api/campaigns/{id}/test-delivery</code></td><td>Campaigns</td><td>Test delivery ke kontak testing</td></tr><tr class='searchable' data-search='get /api/campaigns/{id}/delivery-summary summary delivery campaign campaigns'><td><span class='method get'>GET</span></td><td><code>/api/campaigns/{id}/delivery-summary</code></td><td>Campaigns</td><td>Summary delivery campaign</td></tr><tr class='searchable' data-search='get /api/campaigns/{id}/delivery-logs daftar delivery log campaign campaigns'><td><span class='method get'>GET</span></td><td><code>/api/campaigns/{id}/delivery-logs</code></td><td>Campaigns</td><td>Daftar delivery log campaign</td></tr><tr class='searchable' data-search='patch /api/campaigns/{id}/schedule jadwalkan campaign campaigns'><td><span class='method patch'>PATCH</span></td><td><code>/api/campaigns/{id}/schedule</code></td><td>Campaigns</td><td>Jadwalkan campaign</td></tr><tr class='searchable' data-search='patch /api/campaigns/{id}/start mulai campaign campaigns'><td><span class='method patch'>PATCH</span></td><td><code>/api/campaigns/{id}/start</code></td><td>Campaigns</td><td>Mulai campaign</td></tr><tr class='searchable' data-search='patch /api/campaigns/{id}/complete selesaikan campaign campaigns'><td><span class='method patch'>PATCH</span></td><td><code>/api/campaigns/{id}/complete</code></td><td>Campaigns</td><td>Selesaikan campaign</td></tr><tr class='searchable' data-search='patch /api/campaigns/{id}/cancel batalkan campaign campaigns'><td><span class='method patch'>PATCH</span></td><td><code>/api/campaigns/{id}/cancel</code></td><td>Campaigns</td><td>Batalkan campaign</td></tr><tr class='searchable' data-search='get /api/notifications daftar notifikasi user notifications'><td><span class='method get'>GET</span></td><td><code>/api/notifications</code></td><td>Notifications</td><td>Daftar notifikasi user</td></tr><tr class='searchable' data-search='get /api/notifications/unread-count jumlah notifikasi yang belum dibaca notifications'><td><span class='method get'>GET</span></td><td><code>/api/notifications/unread-count</code></td><td>Notifications</td><td>Jumlah notifikasi yang belum dibaca</td></tr><tr class='searchable' data-search='patch /api/notifications/{id}/read tandai satu notifikasi sudah dibaca notifications'><td><span class='method patch'>PATCH</span></td><td><code>/api/notifications/{id}/read</code></td><td>Notifications</td><td>Tandai satu notifikasi sudah dibaca</td></tr><tr class='searchable' data-search='patch /api/notifications/read-all tandai semua notifikasi sudah dibaca notifications'><td><span class='method patch'>PATCH</span></td><td><code>/api/notifications/read-all</code></td><td>Notifications</td><td>Tandai semua notifikasi sudah dibaca</td></tr><tr class='searchable' data-search='get /api/crm-insights/{analysisrunid} preview snapshot crm insight berdasarkan analysis run crm insights'><td><span class='method get'>GET</span></td><td><code>/api/crm-insights/{analysisRunId}</code></td><td>CRM Insights</td><td>Preview snapshot CRM insight berdasarkan analysis run</td></tr><tr class='searchable' data-search='post /api/crm-insights/{analysisrunid}/generate-notifications generate notifikasi dari crm insight engine crm insights'><td><span class='method post'>POST</span></td><td><code>/api/crm-insights/{analysisRunId}/generate-notifications</code></td><td>CRM Insights</td><td>Generate notifikasi dari CRM Insight Engine</td></tr><tr class='searchable' data-search='get /api/dashboard/summary ringkasan dashboard crm dashboard'><td><span class='method get'>GET</span></td><td><code>/api/dashboard/summary</code></td><td>Dashboard</td><td>Ringkasan dashboard CRM</td></tr><tr class='searchable' data-search='get /api/reports/summary ringkasan reporting crm reports'><td><span class='method get'>GET</span></td><td><code>/api/reports/summary</code></td><td>Reports</td><td>Ringkasan reporting CRM</td></tr><tr class='searchable' data-search='get /api/reports/overview overview report reports'><td><span class='method get'>GET</span></td><td><code>/api/reports/overview</code></td><td>Reports</td><td>Overview report</td></tr><tr class='searchable' data-search='get /api/reports/transactions transaction report reports'><td><span class='method get'>GET</span></td><td><code>/api/reports/transactions</code></td><td>Reports</td><td>Transaction report</td></tr><tr class='searchable' data-search='get /api/reports/segmentation rfm dan clustering report reports'><td><span class='method get'>GET</span></td><td><code>/api/reports/segmentation</code></td><td>Reports</td><td>RFM dan clustering report</td></tr><tr class='searchable' data-search='get /api/reports/campaigns campaign report reports'><td><span class='method get'>GET</span></td><td><code>/api/reports/campaigns</code></td><td>Reports</td><td>Campaign report</td></tr><tr class='searchable' data-search='post /api/ai-advisor/ask tanya ai crm advisor ai advisor'><td><span class='method post'>POST</span></td><td><code>/api/ai-advisor/ask</code></td><td>AI Advisor</td><td>Tanya AI CRM Advisor</td></tr><tr class='searchable' data-search='get /api/ai-advisor/sessions daftar chat session milik user ai advisor'><td><span class='method get'>GET</span></td><td><code>/api/ai-advisor/sessions</code></td><td>AI Advisor</td><td>Daftar chat session milik user</td></tr><tr class='searchable' data-search='post /api/ai-advisor/sessions buat chat session baru ai advisor'><td><span class='method post'>POST</span></td><td><code>/api/ai-advisor/sessions</code></td><td>AI Advisor</td><td>Buat chat session baru</td></tr><tr class='searchable' data-search='get /api/ai-advisor/sessions/{id} detail chat session ai advisor'><td><span class='method get'>GET</span></td><td><code>/api/ai-advisor/sessions/{id}</code></td><td>AI Advisor</td><td>Detail chat session</td></tr><tr class='searchable' data-search='patch /api/ai-advisor/sessions/{id} ubah judul chat session ai advisor'><td><span class='method patch'>PATCH</span></td><td><code>/api/ai-advisor/sessions/{id}</code></td><td>AI Advisor</td><td>Ubah judul chat session</td></tr><tr class='searchable' data-search='delete /api/ai-advisor/sessions/{id} hapus chat session ai advisor'><td><span class='method delete'>DELETE</span></td><td><code>/api/ai-advisor/sessions/{id}</code></td><td>AI Advisor</td><td>Hapus chat session</td></tr><tr class='searchable' data-search='get /api/ai-advisor/sessions/{id}/messages riwayat pesan dalam chat session ai advisor'><td><span class='method get'>GET</span></td><td><code>/api/ai-advisor/sessions/{id}/messages</code></td><td>AI Advisor</td><td>Riwayat pesan dalam chat session</td></tr><tr class='searchable' data-search='get /api/email-test/verify verifikasi koneksi smtp email test'><td><span class='method get'>GET</span></td><td><code>/api/email-test/verify</code></td><td>Email Test</td><td>Verifikasi koneksi SMTP</td></tr><tr class='searchable' data-search='post /api/email-test/send kirim email testing email test'><td><span class='method post'>POST</span></td><td><code>/api/email-test/send</code></td><td>Email Test</td><td>Kirim email testing</td></tr><tr class='searchable' data-search='get /api/whatsapp/webhook verifikasi webhook meta whatsapp whatsapp'><td><span class='method get'>GET</span></td><td><code>/api/whatsapp/webhook</code></td><td>WhatsApp</td><td>Verifikasi webhook Meta WhatsApp</td></tr><tr class='searchable' data-search='post /api/whatsapp/webhook terima event webhook meta whatsapp whatsapp'><td><span class='method post'>POST</span></td><td><code>/api/whatsapp/webhook</code></td><td>WhatsApp</td><td>Terima event webhook Meta WhatsApp</td></tr>
+  </tbody></table></div>
+</section>
+<section id='health'><h2>Health</h2>
+    <details class="endpoint-card searchable" data-search="get /api/health backend health check health">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/health</code>
+        <span class="summary-text">Backend health check</span>
+        <span class="auth">Public</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Backend berjalan<pre><code>{
+  &quot;success&quot;: true,
+  &quot;message&quot;: &quot;ORLIN CRM Backend is running&quot;,
+  &quot;environment&quot;: &quot;development&quot;,
+  &quot;timestamp&quot;: &quot;2026-11-09T10:00:00&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/db-health database connection health check health">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/db-health</code>
+        <span class="summary-text">Database connection health check</span>
+        <span class="auth">Public</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Database terhubung</div><div class='response'><b>500</b> — Internal server error<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    </section><section id='authentication'><h2>Authentication</h2>
+    <details class="endpoint-card searchable" data-search="post /api/auth/login login user authentication">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/auth/login</code>
+        <span class="summary-text">Login user</span>
+        <span class="auth">Public</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;username&quot;: &quot;owner&quot;,
+  &quot;password&quot;: &quot;your-password&quot;
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Login berhasil dan HttpOnly cookie dibuat<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;string&quot;,
+  &quot;data&quot;: {
+    &quot;user&quot;: {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;string&quot;,
+      &quot;username&quot;: &quot;string&quot;,
+      &quot;email&quot;: &quot;string&quot;,
+      &quot;role&quot;: &quot;owner&quot;
+    }
+  }
+}</code></pre></div><div class='response'><b>400</b> — Request tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>401</b> — Authentication diperlukan atau session tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/auth/me mendapatkan user yang sedang login authentication">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/auth/me</code>
+        <span class="summary-text">Mendapatkan user yang sedang login</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — User aktif</div><div class='response'><b>401</b> — Authentication diperlukan atau session tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/auth/logout logout dan menghapus authentication cookie authentication">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/auth/logout</code>
+        <span class="summary-text">Logout dan menghapus authentication cookie</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Logout berhasil</div><div class='response'><b>401</b> — Authentication diperlukan atau session tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    </section><section id='customers'><h2>Customers</h2>
+    <details class="endpoint-card searchable" data-search="get /api/customers daftar customer customers">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/customers</code>
+        <span class="summary-text">Daftar customer</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>page</code></td><td>query</td><td>Tidak</td><td>integer</td><td></td></tr><tr><td><code>limit</code></td><td>query</td><td>Tidak</td><td>integer</td><td></td></tr><tr><td><code>search</code></td><td>query</td><td>Tidak</td><td>string</td><td>Cari kode, nama, WhatsApp, atau email</td></tr><tr><td><code>status</code></td><td>query</td><td>Tidak</td><td>string · active / inactive / all</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Daftar customer<pre><code>{
+  &quot;success&quot;: false,
+  &quot;data&quot;: {
+    &quot;customers&quot;: [
+      {
+        &quot;id&quot;: 1,
+        &quot;customerCode&quot;: &quot;string&quot;,
+        &quot;name&quot;: &quot;string&quot;,
+        &quot;whatsapp&quot;: &quot;string&quot;,
+        &quot;email&quot;: &quot;string&quot;,
+        &quot;isActive&quot;: false
+      }
+    ],
+    &quot;pagination&quot;: {
+      &quot;page&quot;: 1,
+      &quot;limit&quot;: 1,
+      &quot;totalData&quot;: 1,
+      &quot;totalPages&quot;: 1
+    }
+  }
+}</code></pre></div><div class='response'><b>401</b> — Authentication diperlukan atau session tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/customers tambah customer customers">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/customers</code>
+        <span class="summary-text">Tambah customer</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;name&quot;: &quot;Customer Baru&quot;,
+  &quot;whatsapp&quot;: &quot;6281234567890&quot;,
+  &quot;email&quot;: &quot;customer@example.com&quot;
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>201</b> — Customer berhasil dibuat</div><div class='response'><b>422</b> — Validasi request gagal<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;,
+  &quot;errors&quot;: [
+    {}
+  ]
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/customers/{id} detail customer customers">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/customers/{id}</code>
+        <span class="summary-text">Detail customer</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Detail customer</div><div class='response'><b>404</b> — Resource tidak ditemukan<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="put /api/customers/{id} update customer customers">
+      <summary>
+        <span class="method put">PUT</span>
+        <code class="path">/api/customers/{id}</code>
+        <span class="summary-text">Update customer</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;name&quot;: &quot;string&quot;,
+  &quot;whatsapp&quot;: &quot;string&quot;,
+  &quot;email&quot;: &quot;customer@example.com&quot;
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Customer berhasil diperbarui</div><div class='response'><b>422</b> — Validasi request gagal<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;,
+  &quot;errors&quot;: [
+    {}
+  ]
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="delete /api/customers/{id} nonaktifkan customer customers">
+      <summary>
+        <span class="method delete">DELETE</span>
+        <code class="path">/api/customers/{id}</code>
+        <span class="summary-text">Nonaktifkan customer</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Customer berhasil dinonaktifkan</div><div class='response'><b>403</b> — User tidak memiliki akses<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="patch /api/customers/{id}/reactivate aktifkan kembali customer customers">
+      <summary>
+        <span class="method patch">PATCH</span>
+        <code class="path">/api/customers/{id}/reactivate</code>
+        <span class="summary-text">Aktifkan kembali customer</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Customer aktif kembali</div>
+      </div>
+    </details>
+    </section><section id='services'><h2>Services</h2>
+    <details class="endpoint-card searchable" data-search="get /api/services daftar layanan services">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/services</code>
+        <span class="summary-text">Daftar layanan</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>search</code></td><td>query</td><td>Tidak</td><td>string</td><td></td></tr><tr><td><code>status</code></td><td>query</td><td>Tidak</td><td>string · active / inactive / all</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Daftar layanan</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/services tambah layanan services">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/services</code>
+        <span class="summary-text">Tambah layanan</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only</p>
+        
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;serviceName&quot;: &quot;Hair Spa&quot;,
+  &quot;price&quot;: 150000
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>201</b> — Layanan berhasil dibuat</div><div class='response'><b>403</b> — User tidak memiliki akses<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>409</b> — Conflict dengan state/data yang sudah ada<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/services/{id} detail layanan services">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/services/{id}</code>
+        <span class="summary-text">Detail layanan</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Detail layanan</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="put /api/services/{id} update layanan services">
+      <summary>
+        <span class="method put">PUT</span>
+        <code class="path">/api/services/{id}</code>
+        <span class="summary-text">Update layanan</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;serviceName&quot;: &quot;string&quot;,
+  &quot;price&quot;: 0
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Layanan berhasil diperbarui</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="delete /api/services/{id} nonaktifkan layanan services">
+      <summary>
+        <span class="method delete">DELETE</span>
+        <code class="path">/api/services/{id}</code>
+        <span class="summary-text">Nonaktifkan layanan</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Layanan dinonaktifkan</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="patch /api/services/{id}/reactivate aktifkan kembali layanan services">
+      <summary>
+        <span class="method patch">PATCH</span>
+        <code class="path">/api/services/{id}/reactivate</code>
+        <span class="summary-text">Aktifkan kembali layanan</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Layanan aktif kembali</div>
+      </div>
+    </details>
+    </section><section id='transactions'><h2>Transactions</h2>
+    <details class="endpoint-card searchable" data-search="get /api/transactions daftar transaksi transactions">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/transactions</code>
+        <span class="summary-text">Daftar transaksi</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>page</code></td><td>query</td><td>Tidak</td><td>integer</td><td></td></tr><tr><td><code>limit</code></td><td>query</td><td>Tidak</td><td>integer</td><td></td></tr><tr><td><code>search</code></td><td>query</td><td>Tidak</td><td>string</td><td>Pencarian kode transaksi</td></tr><tr><td><code>startDate</code></td><td>query</td><td>Tidak</td><td>string</td><td></td></tr><tr><td><code>endDate</code></td><td>query</td><td>Tidak</td><td>string</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Daftar transaksi</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/transactions buat transaksi transactions">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/transactions</code>
+        <span class="summary-text">Buat transaksi</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Total dan harga layanan dihitung oleh backend.</p>
+        
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;customerId&quot;: 1,
+  &quot;transactionDate&quot;: &quot;2026-10-20T10:30:00&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;serviceId&quot;: 1,
+      &quot;quantity&quot;: 1
+    },
+    {
+      &quot;serviceId&quot;: 2,
+      &quot;quantity&quot;: 1
+    }
+  ]
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>201</b> — Transaksi berhasil disimpan</div><div class='response'><b>400</b> — Request tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>422</b> — Validasi request gagal<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;,
+  &quot;errors&quot;: [
+    {}
+  ]
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/transactions/{id} detail transaksi transactions">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/transactions/{id}</code>
+        <span class="summary-text">Detail transaksi</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Detail transaksi</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="put /api/transactions/{id} update transaksi transactions">
+      <summary>
+        <span class="method put">PUT</span>
+        <code class="path">/api/transactions/{id}</code>
+        <span class="summary-text">Update transaksi</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;customerId&quot;: 1,
+  &quot;transactionDate&quot;: &quot;2026-11-09T10:00:00&quot;,
+  &quot;items&quot;: [
+    {
+      &quot;serviceId&quot;: 1,
+      &quot;quantity&quot;: 1
+    }
+  ]
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Transaksi berhasil diperbarui</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="delete /api/transactions/{id} hapus transaksi transactions">
+      <summary>
+        <span class="method delete">DELETE</span>
+        <code class="path">/api/transactions/{id}</code>
+        <span class="summary-text">Hapus transaksi</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Transaksi berhasil dihapus</div>
+      </div>
+    </details>
+    </section><section id='analysis'><h2>Analysis</h2>
+    <details class="endpoint-card searchable" data-search="get /api/analysis riwayat analysis run analysis">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/analysis</code>
+        <span class="summary-text">Riwayat analysis run</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Daftar analysis run</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/analysis/run jalankan rfm + k-means analysis analysis">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/analysis/run</code>
+        <span class="summary-text">Jalankan RFM + K-Means analysis</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only.<br><br>Pipeline: MySQL transactions -&gt; Node.js -&gt; FastAPI -&gt; RFM -&gt; StandardScaler -&gt;<br>K-Means -&gt; segment mapping -&gt; simpan RFM dan cluster result.</p>
+        
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;name&quot;: &quot;Baseline RFM ORLIN 2023-2026&quot;,
+  &quot;startDate&quot;: &quot;2023-07-01&quot;,
+  &quot;endDate&quot;: &quot;2026-06-30&quot;,
+  &quot;referenceDate&quot;: &quot;2026-06-30&quot;
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>201</b> — Analysis selesai</div><div class='response'><b>403</b> — User tidak memiliki akses<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/analysis/{id} detail analysis run analysis">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/analysis/{id}</code>
+        <span class="summary-text">Detail analysis run</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Detail analysis dan clustering</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/analysis/{id}/summary summary customer intelligence analysis">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/analysis/{id}/summary</code>
+        <span class="summary-text">Summary Customer Intelligence</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Metrik clustering, distribusi segmen, dan statistik RFM.</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Summary analysis<pre><code>{
+  &quot;success&quot;: false,
+  &quot;data&quot;: {
+    &quot;analysis&quot;: {},
+    &quot;metrics&quot;: {
+      &quot;silhouetteScore&quot;: 0,
+      &quot;daviesBouldinIndex&quot;: 0,
+      &quot;calinskiHarabaszScore&quot;: 0
+    },
+    &quot;segmentDistribution&quot;: [
+      {
+        &quot;code&quot;: &quot;VVIP&quot;,
+        &quot;name&quot;: &quot;string&quot;,
+        &quot;objective&quot;: &quot;string&quot;,
+        &quot;total&quot;: 1,
+        &quot;percentage&quot;: 0
+      }
+    ],
+    &quot;rfmStatistics&quot;: {}
+  }
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/analysis/{id}/customers daftar customer hasil analysis analysis">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/analysis/{id}/customers</code>
+        <span class="summary-text">Daftar customer hasil analysis</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr><tr><td><code>page</code></td><td>query</td><td>Tidak</td><td>integer</td><td></td></tr><tr><td><code>limit</code></td><td>query</td><td>Tidak</td><td>integer</td><td></td></tr><tr><td><code>search</code></td><td>query</td><td>Tidak</td><td>string</td><td></td></tr><tr><td><code>segment</code></td><td>query</td><td>Tidak</td><td>string · VVIP / LOYAL / AT_RISK / INACTIVE</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Customer intelligence list</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/analysis/{id}/customers/{customerid} detail rfm dan segment satu customer analysis">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/analysis/{id}/customers/{customerId}</code>
+        <span class="summary-text">Detail RFM dan segment satu customer</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr><tr><td><code>customerId</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Customer intelligence detail</div>
+      </div>
+    </details>
+    </section><section id='promotion-strategies'><h2>Promotion Strategies</h2>
+    <details class="endpoint-card searchable" data-search="get /api/promotion-strategies daftar strategi promosi promotion strategies">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/promotion-strategies</code>
+        <span class="summary-text">Daftar strategi promosi</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>segment</code></td><td>query</td><td>Tidak</td><td>string · VVIP / LOYAL / AT_RISK / INACTIVE</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Daftar promotion strategy</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/promotion-strategies/{id} detail promotion strategy promotion strategies">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/promotion-strategies/{id}</code>
+        <span class="summary-text">Detail promotion strategy</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Detail strategi promosi</div>
+      </div>
+    </details>
+    </section><section id='campaigns'><h2>Campaigns</h2>
+    <details class="endpoint-card searchable" data-search="get /api/campaigns daftar campaign campaigns">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/campaigns</code>
+        <span class="summary-text">Daftar campaign</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Daftar campaign</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/campaigns buat campaign campaigns">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/campaigns</code>
+        <span class="summary-text">Buat campaign</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only</p>
+        
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;campaignName&quot;: &quot;Comeback Promo November&quot;,
+  &quot;analysisRunId&quot;: 4,
+  &quot;segmentCode&quot;: &quot;AT_RISK&quot;,
+  &quot;promotionStrategyId&quot;: 3,
+  &quot;promotionType&quot;: &quot;discount&quot;,
+  &quot;promotionValue&quot;: 15,
+  &quot;promotionUnit&quot;: &quot;percent&quot;,
+  &quot;offerDescription&quot;: &quot;Diskon comeback khusus pelanggan At Risk.&quot;,
+  &quot;startDatetime&quot;: &quot;2026-11-01T09:00:00&quot;,
+  &quot;endDatetime&quot;: &quot;2026-11-07T23:59:59&quot;,
+  &quot;whatsappEnabled&quot;: true,
+  &quot;emailEnabled&quot;: true,
+  &quot;whatsappMessage&quot;: &quot;Hai! Ada promo comeback spesial dari ORLIN Salon untuk kamu.&quot;,
+  &quot;emailSubject&quot;: &quot;Comeback Promo ORLIN Salon&quot;,
+  &quot;emailBody&quot;: &quot;Kami punya promo khusus untuk menyambut kamu kembali ke ORLIN Salon.&quot;,
+  &quot;deliveryMode&quot;: &quot;simulation&quot;
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>201</b> — Campaign berhasil dibuat</div><div class='response'><b>400</b> — Request tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/campaigns/{id} detail campaign campaigns">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/campaigns/{id}</code>
+        <span class="summary-text">Detail campaign</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Detail campaign dan jumlah target</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/campaigns/{id}/generate-targets generate dan freeze target campaign campaigns">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/campaigns/{id}/generate-targets</code>
+        <span class="summary-text">Generate dan freeze target campaign</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only. Target merupakan snapshot dari segment pada analysis run campaign.</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>201</b> — Target berhasil dibekukan</div><div class='response'><b>400</b> — Request tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>409</b> — Conflict dengan state/data yang sudah ada<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/campaigns/{id}/simulate simulasikan delivery campaign campaigns">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/campaigns/{id}/simulate</code>
+        <span class="summary-text">Simulasikan delivery campaign</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Tidak mengirim pesan nyata. Membuat log status simulated.</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>201</b> — Simulasi berhasil</div><div class='response'><b>409</b> — Conflict dengan state/data yang sudah ada<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/campaigns/{id}/test-delivery test delivery ke kontak testing campaigns">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/campaigns/{id}/test-delivery</code>
+        <span class="summary-text">Test delivery ke kontak testing</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Maksimal satu WhatsApp dan satu Email per campaign test.</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Test delivery selesai; hasil channel dapat sukses/gagal</div><div class='response'><b>409</b> — Conflict dengan state/data yang sudah ada<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/campaigns/{id}/delivery-summary summary delivery campaign campaigns">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/campaigns/{id}/delivery-summary</code>
+        <span class="summary-text">Summary delivery campaign</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Ringkasan delivery per channel/status</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/campaigns/{id}/delivery-logs daftar delivery log campaign campaigns">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/campaigns/{id}/delivery-logs</code>
+        <span class="summary-text">Daftar delivery log campaign</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr><tr><td><code>page</code></td><td>query</td><td>Tidak</td><td>integer</td><td></td></tr><tr><td><code>limit</code></td><td>query</td><td>Tidak</td><td>integer</td><td></td></tr><tr><td><code>channel</code></td><td>query</td><td>Tidak</td><td>string · whatsapp / email</td><td></td></tr><tr><td><code>status</code></td><td>query</td><td>Tidak</td><td>string · pending / simulated / sent / failed</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Delivery logs dan pagination</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="patch /api/campaigns/{id}/schedule jadwalkan campaign campaigns">
+      <summary>
+        <span class="method patch">PATCH</span>
+        <code class="path">/api/campaigns/{id}/schedule</code>
+        <span class="summary-text">Jadwalkan campaign</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only. Mengubah campaign draft menjadi scheduled.</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Campaign berhasil dijadwalkan</div><div class='response'><b>400</b> — Request tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>403</b> — User tidak memiliki akses<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>404</b> — Resource tidak ditemukan<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="patch /api/campaigns/{id}/start mulai campaign campaigns">
+      <summary>
+        <span class="method patch">PATCH</span>
+        <code class="path">/api/campaigns/{id}/start</code>
+        <span class="summary-text">Mulai campaign</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only. Mengubah campaign menjadi active dan membuat notifikasi campaign dimulai.</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Campaign berhasil dimulai</div><div class='response'><b>400</b> — Request tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>403</b> — User tidak memiliki akses<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>404</b> — Resource tidak ditemukan<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="patch /api/campaigns/{id}/complete selesaikan campaign campaigns">
+      <summary>
+        <span class="method patch">PATCH</span>
+        <code class="path">/api/campaigns/{id}/complete</code>
+        <span class="summary-text">Selesaikan campaign</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only. Mengubah campaign active menjadi completed dan membuat notifikasi campaign selesai.</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Campaign berhasil diselesaikan</div><div class='response'><b>400</b> — Request tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>403</b> — User tidak memiliki akses<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>404</b> — Resource tidak ditemukan<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="patch /api/campaigns/{id}/cancel batalkan campaign campaigns">
+      <summary>
+        <span class="method patch">PATCH</span>
+        <code class="path">/api/campaigns/{id}/cancel</code>
+        <span class="summary-text">Batalkan campaign</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only. Membatalkan campaign yang masih dapat dibatalkan.</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Campaign berhasil dibatalkan</div><div class='response'><b>400</b> — Request tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>403</b> — User tidak memiliki akses<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>404</b> — Resource tidak ditemukan<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    </section><section id='notifications'><h2>Notifications</h2>
+    <details class="endpoint-card searchable" data-search="get /api/notifications daftar notifikasi user notifications">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/notifications</code>
+        <span class="summary-text">Daftar notifikasi user</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Daftar notifikasi</div><div class='response'><b>401</b> — Authentication diperlukan atau session tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/notifications/unread-count jumlah notifikasi yang belum dibaca notifications">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/notifications/unread-count</code>
+        <span class="summary-text">Jumlah notifikasi yang belum dibaca</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Jumlah notifikasi belum dibaca</div><div class='response'><b>401</b> — Authentication diperlukan atau session tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="patch /api/notifications/{id}/read tandai satu notifikasi sudah dibaca notifications">
+      <summary>
+        <span class="method patch">PATCH</span>
+        <code class="path">/api/notifications/{id}/read</code>
+        <span class="summary-text">Tandai satu notifikasi sudah dibaca</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Notifikasi berhasil ditandai sudah dibaca</div><div class='response'><b>404</b> — Resource tidak ditemukan<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="patch /api/notifications/read-all tandai semua notifikasi sudah dibaca notifications">
+      <summary>
+        <span class="method patch">PATCH</span>
+        <code class="path">/api/notifications/read-all</code>
+        <span class="summary-text">Tandai semua notifikasi sudah dibaca</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Semua notifikasi berhasil ditandai sudah dibaca</div>
+      </div>
+    </details>
+    </section><section id='crm-insights'><h2>CRM Insights</h2>
+    <details class="endpoint-card searchable" data-search="get /api/crm-insights/{analysisrunid} preview snapshot crm insight berdasarkan analysis run crm insights">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/crm-insights/{analysisRunId}</code>
+        <span class="summary-text">Preview snapshot CRM insight berdasarkan analysis run</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>analysisRunId</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Snapshot CRM insight</div><div class='response'><b>404</b> — Resource tidak ditemukan<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/crm-insights/{analysisrunid}/generate-notifications generate notifikasi dari crm insight engine crm insights">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/crm-insights/{analysisRunId}/generate-notifications</code>
+        <span class="summary-text">Generate notifikasi dari CRM Insight Engine</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only. Membuat notifikasi insight dengan proteksi duplikasi.</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>analysisRunId</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Proses generate insight notification selesai</div><div class='response'><b>403</b> — User tidak memiliki akses<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div><div class='response'><b>404</b> — Resource tidak ditemukan<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    </section><section id='dashboard'><h2>Dashboard</h2>
+    <details class="endpoint-card searchable" data-search="get /api/dashboard/summary ringkasan dashboard crm dashboard">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/dashboard/summary</code>
+        <span class="summary-text">Ringkasan dashboard CRM</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>KPI, latest analysis, distribusi segmen, top service, trend 12 bulan, campaign terbaru, dan notifikasi terbaru.</p>
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Dashboard summary</div><div class='response'><b>401</b> — Authentication diperlukan atau session tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    </section><section id='reports'><h2>Reports</h2>
+    <details class="endpoint-card searchable" data-search="get /api/reports/summary ringkasan reporting crm reports">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/reports/summary</code>
+        <span class="summary-text">Ringkasan reporting CRM</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Report summary</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/reports/overview overview report reports">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/reports/overview</code>
+        <span class="summary-text">Overview report</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Overview report</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/reports/transactions transaction report reports">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/reports/transactions</code>
+        <span class="summary-text">Transaction report</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>startDate</code></td><td>query</td><td>Tidak</td><td>string</td><td></td></tr><tr><td><code>endDate</code></td><td>query</td><td>Tidak</td><td>string</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Transaction report</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/reports/segmentation rfm dan clustering report reports">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/reports/segmentation</code>
+        <span class="summary-text">RFM dan clustering report</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Segmentation report</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/reports/campaigns campaign report reports">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/reports/campaigns</code>
+        <span class="summary-text">Campaign report</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>startDate</code></td><td>query</td><td>Tidak</td><td>string</td><td></td></tr><tr><td><code>endDate</code></td><td>query</td><td>Tidak</td><td>string</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Campaign report</div>
+      </div>
+    </details>
+    </section><section id='ai-advisor'><h2>AI Advisor</h2>
+    <details class="endpoint-card searchable" data-search="post /api/ai-advisor/ask tanya ai crm advisor ai advisor">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/ai-advisor/ask</code>
+        <span class="summary-text">Tanya AI CRM Advisor</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;message&quot;: &quot;Segmen mana yang perlu diprioritaskan untuk campaign minggu ini?&quot;,
+  &quot;sessionId&quot;: 1
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Jawaban AI Advisor</div><div class='response'><b>400</b> — Request tidak valid<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/ai-advisor/sessions daftar chat session milik user ai advisor">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/ai-advisor/sessions</code>
+        <span class="summary-text">Daftar chat session milik user</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Daftar chat session</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/ai-advisor/sessions buat chat session baru ai advisor">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/ai-advisor/sessions</code>
+        <span class="summary-text">Buat chat session baru</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;title&quot;: &quot;string&quot;
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>201</b> — Chat session berhasil dibuat</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/ai-advisor/sessions/{id} detail chat session ai advisor">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/ai-advisor/sessions/{id}</code>
+        <span class="summary-text">Detail chat session</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Detail chat session</div><div class='response'><b>404</b> — Resource tidak ditemukan<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="patch /api/ai-advisor/sessions/{id} ubah judul chat session ai advisor">
+      <summary>
+        <span class="method patch">PATCH</span>
+        <code class="path">/api/ai-advisor/sessions/{id}</code>
+        <span class="summary-text">Ubah judul chat session</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;title&quot;: &quot;string&quot;
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Chat session berhasil diperbarui</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="delete /api/ai-advisor/sessions/{id} hapus chat session ai advisor">
+      <summary>
+        <span class="method delete">DELETE</span>
+        <code class="path">/api/ai-advisor/sessions/{id}</code>
+        <span class="summary-text">Hapus chat session</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Chat session berhasil dihapus</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="get /api/ai-advisor/sessions/{id}/messages riwayat pesan dalam chat session ai advisor">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/ai-advisor/sessions/{id}/messages</code>
+        <span class="summary-text">Riwayat pesan dalam chat session</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>id</code></td><td>path</td><td>Ya</td><td>integer</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Riwayat pesan chat session</div><div class='response'><b>404</b> — Resource tidak ditemukan<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    </section><section id='email-test'><h2>Email Test</h2>
+    <details class="endpoint-card searchable" data-search="get /api/email-test/verify verifikasi koneksi smtp email test">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/email-test/verify</code>
+        <span class="summary-text">Verifikasi koneksi SMTP</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only. Endpoint operasional untuk memastikan konfigurasi SMTP dapat terhubung.</p>
+        
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Koneksi SMTP valid</div><div class='response'><b>403</b> — User tidak memiliki akses<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/email-test/send kirim email testing email test">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/email-test/send</code>
+        <span class="summary-text">Kirim email testing</span>
+        <span class="auth">JWT Cookie</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Owner only. Recipient diambil dari EMAIL_TEST_RECIPIENT.</p>
+        
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{
+  &quot;subject&quot;: &quot;Test Email ORLIN CRM&quot;,
+  &quot;body&quot;: &quot;Email testing dari ORLIN CRM.&quot;
+}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Request pengiriman email berhasil diproses</div><div class='response'><b>403</b> — User tidak memiliki akses<pre><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Request gagal&quot;
+}</code></pre></div>
+      </div>
+    </details>
+    </section><section id='whatsapp'><h2>WhatsApp</h2>
+    <details class="endpoint-card searchable" data-search="get /api/whatsapp/webhook verifikasi webhook meta whatsapp whatsapp">
+      <summary>
+        <span class="method get">GET</span>
+        <code class="path">/api/whatsapp/webhook</code>
+        <span class="summary-text">Verifikasi webhook Meta WhatsApp</span>
+        <span class="auth">Public</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Endpoint publik yang dipanggil Meta saat verifikasi callback URL.</p>
+        
+        <h4>Parameter</h4>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Lokasi</th><th>Wajib</th><th>Tipe</th><th>Keterangan</th></tr></thead>
+        <tbody><tr><td><code>hub.mode</code></td><td>query</td><td>Ya</td><td>string</td><td></td></tr><tr><td><code>hub.verify_token</code></td><td>query</td><td>Ya</td><td>string</td><td></td></tr><tr><td><code>hub.challenge</code></td><td>query</td><td>Ya</td><td>string</td><td></td></tr></tbody></table></div>
+        
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Challenge Meta dikembalikan sebagai plain text</div><div class='response'><b>403</b> — Verify token tidak cocok</div>
+      </div>
+    </details>
+    
+    <details class="endpoint-card searchable" data-search="post /api/whatsapp/webhook terima event webhook meta whatsapp whatsapp">
+      <summary>
+        <span class="method post">POST</span>
+        <code class="path">/api/whatsapp/webhook</code>
+        <span class="summary-text">Terima event webhook Meta WhatsApp</span>
+        <span class="auth">Public</span>
+      </summary>
+      <div class="endpoint-body">
+        <p class='desc'>Menerima incoming message dan delivery status dari Meta.</p>
+        
+        <h4>Request JSON</h4><div class="codebox"><button class="copy" onclick="copyCode(this)">Copy</button><pre><code>{}</code></pre></div>
+        <h4>Response</h4>
+        <div class='response'><b>200</b> — Event webhook diterima</div>
+      </div>
+    </details>
+    </section>
+</main>
+<script>
+const search=document.getElementById('search');
+search.addEventListener('input',()=>{
+  const q=search.value.trim().toLowerCase();
+  document.querySelectorAll('.searchable').forEach(el=>{
+    const hit=!q || (el.dataset.search||'').includes(q);
+    el.classList.toggle('hidden',!hit);
+  });
+});
+function copyCode(btn){
+  const text=btn.nextElementSibling.innerText;
+  navigator.clipboard.writeText(text);
+  const old=btn.innerText; btn.innerText='Copied';
+  setTimeout(()=>btn.innerText=old,1000);
+}
+</script>
+</body>
+</html>
